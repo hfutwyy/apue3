@@ -1,0 +1,24 @@
+APUE3.0书拿到手，做第一个实验时，就被当头打了一棒！
+妹的，这么有名气的书，咋不给写个怎么准备开发环境的序啊。
+唉，不给写算了，自己折腾折腾吧。
+废话不多说，如下介绍实验环境搭建：
+本人环境：Ubuntu 10.4 虚拟机环境 + SecureCRT客户端连接
+步骤：
+1.从http://www.apuebook.com/网站找到第三版的源代码压缩包，之后wget 至本地，命令如下：
+  wget http://www.apuebook.com/src.3e.tar.gz
+2.解压文件 tar -zxvf src.3e.tar.gz
+3.进入文件代码目录，并make
+  cd src.3e;
+  make
+4.会发现，有编译错误，原因为如下包未安装，需要安装
+  sudo apt-get install libbsd-dev;
+5.再次make
+6.将如下两个文件拷贝至特定位置：
+  sudo cp ./include/apue.h /usr/include/
+  sudo cp ./lib/libapue.a /usr/local/lib/
+7.且慢，还有最后一步，需要把书中自定义的err提示相应方法引入
+  mv ./lib/error.c /usr/include/myerr.h
+8.书中第一个例子中，需要在第二行，引入myerr.h头文件，因为例子中有使用err_quit及err_sys两个作者自定义方法
+  #include "myerr.h"
+9.编译第一个程序吧，Enjoy你的APUE之旅吧。
+  gcc 1-3.c -o 1-3.out
